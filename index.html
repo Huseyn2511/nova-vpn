@@ -313,6 +313,70 @@
   </div>
 </section>
 
+<section class="section" id="review">
+  <div class="wrap">
+    <h2>Оцени <span>NOVA VPN</span></h2>
+    <p class="lead">Как тебе приложение? Поставь звёзды и напиши пару слов — отзыв откроется в Telegram, останется нажать «Отправить».</p>
+    <div class="review-card reveal">
+      <div class="stars" id="stars">
+        <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+      </div>
+      <p class="star-txt" id="star-txt">Нажми на звезду</p>
+      <textarea id="review-text" placeholder="Напиши пару слов о NOVA VPN…"></textarea>
+      <button id="review-btn" class="btn-card" style="border:none;cursor:pointer">Отправить отзыв</button>
+      <p class="hint">Отзыв откроется в Telegram — останется нажать «Отправить».</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .review-card{
+    max-width:640px;margin:10px auto 0;background:var(--card);
+    border:1px solid var(--border);border-radius:20px;padding:34px 30px;text-align:center;
+  }
+  .stars{font-size:44px;letter-spacing:6px;cursor:pointer;user-select:none}
+  .stars span{color:#3a4568;transition:color .15s,transform .15s;display:inline-block}
+  .stars span:hover{transform:scale(1.15)}
+  .stars span.on{color:#fbbf24}
+  .star-txt{color:var(--muted);font-size:14px;margin:10px 0 18px;min-height:20px}
+  .review-card textarea{
+    width:100%;background:var(--bg);border:1px solid var(--border);border-radius:12px;
+    color:var(--text);font:inherit;font-size:14.5px;padding:14px;resize:vertical;min-height:110px;
+    outline:none;margin-bottom:16px;box-sizing:border-box;
+  }
+  .review-card textarea:focus{border-color:var(--blue)}
+  .review-card .btn-card{width:auto;padding:13px 34px;margin:0 auto}
+  .review-card .hint{color:#5b6890;font-size:12.5px;margin-top:14px}
+</style>
+
+<script>
+  // звёзды оценки
+  const starEls = document.querySelectorAll('#stars span');
+  let rating = 0;
+  const starTxt = document.getElementById('star-txt');
+  const labels = {1:'Ужасно',2:'Плохо',3:'Нормально',4:'Хорошо',5:'Отлично!'};
+  starEls.forEach(s=>{
+    s.addEventListener('click',()=>{
+      rating = +s.dataset.v;
+      starEls.forEach(x=>x.classList.toggle('on', +x.dataset.v <= rating));
+      starTxt.textContent = (labels[rating]||'') + ' — ' + rating + ' из 5';
+    });
+    s.addEventListener('mouseenter',()=>{
+      starEls.forEach(x=>x.classList.toggle('on', +x.dataset.v <= +s.dataset.v));
+    });
+    s.addEventListener('mouseleave',()=>{
+      starEls.forEach(x=>x.classList.toggle('on', +x.dataset.v <= rating));
+    });
+  });
+  document.getElementById('review-btn').addEventListener('click',()=>{
+    if(!rating){ starTxt.textContent='Сначала поставь оценку звёздами.'; return; }
+    const msg = document.getElementById('review-text').value.trim();
+    let text = 'NOVA VPN — оценка ' + rating + '/5';
+    if(msg) text += '\n\n' + msg;
+    window.open('https://t.me/novavpn_news?text=' + encodeURIComponent(text), '_blank');
+  });
+</script>
+
 <section class="section" id="faq">
   <div class="wrap">
     <h2>Частые <span>вопросы</span></h2>
