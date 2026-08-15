@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA VPN — интернет без границ</title>
+<meta name="description" content="NOVA VPN — бесплатный VPN без регистрации. Открывает YouTube, Instagram, TikTok и другие заблокированные сайты. Windows, Android, iPhone.">
+<link rel="icon" href="favicon.ico">
+<style>
+  :root{
+    --bg:#0a0f1c; --bg2:#0d1220; --card:#151c31; --card2:#1a2340;
+    --border:#232e4d; --text:#e8edfb; --muted:#8b96b8;
+    --blue:#4f8cff; --blue2:#6ca1ff; --cyan:#22d3ee; --green:#34d399;
+    --grad:linear-gradient(135deg,#4f8cff 0%,#22d3ee 100%);
+    --grad2:linear-gradient(135deg,#22d3ee 0%,#4f8cff 100%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;
+    background:var(--bg); color:var(--text); overflow-x:hidden;
+  }
+  .bg-glow{
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(600px 400px at 15% -5%, rgba(79,140,255,.16), transparent 60%),
+      radial-gradient(700px 500px at 90% 15%, rgba(34,211,238,.12), transparent 60%),
+      radial-gradient(800px 600px at 50% 110%, rgba(79,140,255,.10), transparent 60%);
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* ---------- шапка ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    background:rgba(10,15,28,.72); border-bottom:1px solid rgba(35,46,77,.6);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text)}
+  .brand img{width:38px;height:38px;border-radius:50%}
+  .brand b{font-size:20px;font-weight:700;letter-spacing:.5px}
+  .brand b span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav-links{display:flex;gap:28px;align-items:center}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:15px;transition:color .2s}
+  .nav-links a:hover{color:var(--text)}
+  .btn-dl{
+    background:var(--grad);color:#fff;text-decoration:none;font-weight:600;
+    padding:10px 22px;border-radius:12px;font-size:15px;transition:transform .15s,box-shadow .2s;
+    box-shadow:0 4px 20px rgba(79,140,255,.35);
+  }
+  .btn-dl:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(34,211,238,.4)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:96px 0 70px;text-align:center;position:relative}
+  .hero .logo-ring{
+    width:110px;height:110px;margin:0 auto 26px;border-radius:50%;
+    background:var(--card);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 60px rgba(34,211,238,.25), inset 0 0 30px rgba(79,140,255,.08);
+    animation:float 5s ease-in-out infinite;
+  }
+  .hero .logo-ring img{width:84px;height:84px;border-radius:50%}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .hero h1{
+    font-size:56px;font-weight:800;letter-spacing:-1px;line-height:1.08;
+    background:linear-gradient(120deg,#fff 20%,var(--blue2) 55%,var(--cyan) 90%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.sub{
+    color:var(--muted);font-size:19px;max-width:640px;margin:22px auto 0;line-height:1.6;
+  }
+  .hero .badges{
+    display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px;
+  }
+  .badge{
+    display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);
+    background:var(--card);border:1px solid var(--border);padding:8px 16px;border-radius:100px;
+  }
+  .badge svg{width:16px;height:16px;stroke:var(--cyan)}
+  .hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:38px}
+  .btn-hero{
+    display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:#fff;
+    font-weight:700;font-size:17px;padding:16px 34px;border-radius:16px;
+    background:var(--grad);box-shadow:0 8px 30px rgba(79,140,255,.4);
+    transition:transform .15s,box-shadow .2s;
+  }
+  .btn-hero:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(34,211,238,.45)}
+  .btn-hero.ghost{
+    background:var(--card);border:1px solid var(--border);color:var(--text);
+    box-shadow:none;
+  }
+  .btn-hero.ghost:hover{border-color:var(--blue)}
+
+  /* ---------- платформы ---------- */
+  .section{padding:60px 0}
+  .section h2{font-size:36px;font-weight:800;text-align:center;letter-spacing:-.5px}
+  .section h2 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .section .lead{color:var(--muted);text-align:center;margin:14px auto 46px;max-width:600px;font-size:16px;line-height:1.6}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:20px;
+    padding:34px 28px;position:relative;overflow:hidden;
+    transition:transform .2s,border-color .2s,box-shadow .2s;
+  }
+  .card:hover{transform:translateY(-6px);border-color:var(--blue);box-shadow:0 16px 44px rgba(79,140,255,.16)}
+  .card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:var(--grad);opacity:0;transition:opacity .2s;
+  }
+  .card:hover::before{opacity:1}
+  .card .os{
+    width:58px;height:58px;border-radius:16px;background:var(--card2);
+    border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:20px;
+  }
+  .card .os svg{width:30px;height:30px}
+  .card h3{font-size:22px;font-weight:700;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:14.5px;line-height:1.65;min-height:66px}
+  .card .meta{font-size:12.5px;color:#5b6890;margin:12px 0 18px}
+  .card .btn-card{
+    display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+    text-decoration:none;color:#fff;font-weight:600;font-size:15px;
+    padding:13px 0;border-radius:12px;background:var(--grad);
+    transition:transform .15s,box-shadow .2s;box-shadow:0 4px 16px rgba(79,140,255,.3);
+  }
+  .card .btn-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(34,211,238,.35)}
+  .card .btn-card.alt{background:var(--card2);border:1px solid var(--border);box-shadow:none;color:var(--text)}
+  .card .btn-card.alt:hover{border-color:var(--blue)}
+
+  /* ---------- инструкция ---------- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:10px}
+  .step{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px}
+  .step .num{
+    width:38px;height:38px;border-radius:12px;background:var(--grad);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;color:#fff;margin-bottom:16px;
+  }
+  .step h4{font-size:17px;margin-bottom:8px}
+  .step p{color:var(--muted);font-size:14px;line-height:1.65}
+  .step code{
+    display:block;background:var(--bg);border:1px solid var(--border);border-radius:8px;
+    padding:10px 12px;margin-top:10px;font-size:12px;color:var(--cyan);word-break:break-all;
+  }
+  .phone-guide{display:flex;gap:26px;align-items:center;margin-top:40px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:26px}
+  .phone-guide img{max-width:300px;border-radius:14px;border:1px solid var(--border)}
+  .phone-guide p{color:var(--muted);font-size:14.5px;line-height:1.7}
+
+  /* ---------- FAQ ---------- */
+  .faq{max-width:760px;margin:10px auto 0}
+  .faq-item{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden}
+  .faq-item summary{
+    cursor:pointer;padding:18px 22px;font-weight:600;font-size:15.5px;list-style:none;
+    display:flex;justify-content:space-between;align-items:center;transition:color .2s;
+  }
+  .faq-item summary:hover{color:var(--blue2)}
+  .faq-item summary::after{content:'+';font-size:22px;color:var(--blue);font-weight:400}
+  .faq-item[open] summary::after{content:'−'}
+  .faq-item p{padding:0 22px 18px;color:var(--muted);font-size:14.5px;line-height:1.7}
+
+  /* ---------- футер ---------- */
+  footer{border-top:1px solid rgba(35,46,77,.6);padding:36px 0 44px;margin-top:50px}
+  .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .foot .brand img{width:30px;height:30px}
+  .foot p{color:#5b6890;font-size:13.5px}
+  .foot a{color:var(--muted);text-decoration:none;font-size:13.5px}
+  .foot a:hover{color:var(--text)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.on{opacity:1;transform:none}
+
+  /* ---------- адаптив ---------- */
+  @media(max-width:900px){
+    .grid,.steps{grid-template-columns:1fr}
+    .hero h1{font-size:38px}
+    .hero{padding:60px 0 46px}
+    .nav-links{display:none}
+    .phone-guide{flex-direction:column}
+    .phone-guide img{max-width:100%}
+    .section h2{font-size:29px}
+  }
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#">
+      <img src="logo_small.png" alt="NOVA VPN">
+      <b>NOVA<span>VPN</span></b>
+    </a>
+    <nav class="nav-links">
+      <a href="#download">Скачать</a>
+      <a href="#setup">Настройка</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <a class="btn-dl" href="#download">Скачать</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="logo-ring"><img src="logo.png" alt=""></div>
+    <h1>Интернет без границ</h1>
+    <p class="sub">NOVA VPN открывает YouTube, Instagram, TikTok и другие заблокированные сайты. Бесплатно, без регистрации, без карты и без почты.</p>
+    <div class="badges">
+      <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Твой IP скрыт</span>
+      <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Быстро и стабильно</span>
+      <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg> 100% бесплатно</span>
+    </div>
+    <div class="hero-actions">
+      <a class="btn-hero" href="downloads/NOVA_Windows.zip">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+        Скачать для Windows
+      </a>
+      <a class="btn-hero ghost" href="#download">Другие платформы ↓</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="download">
+  <div class="wrap">
+    <h2>Скачать <span>NOVA VPN</span></h2>
+    <p class="lead">Выбери свою платформу — и интернет станет свободным за пару минут.</p>
+    <div class="grid">
+
+      <div class="card reveal">
+        <div class="os">
+          <svg viewBox="0 0 24 24" fill="#4f8cff"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+        </div>
+        <h3>Windows</h3>
+        <p>Готовая программа NOVA VPN. Скачал, запустил, нажал на круг — и всё работает. YouTube, TikTok, Instagram открываются.</p>
+        <div class="meta">Версия 0.9 · 54 МБ · без установки</div>
+        <a class="btn-card" href="downloads/NOVA_Windows.zip">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>
+          Скачать для Windows
+        </a>
+      </div>
+
+      <div class="card reveal">
+        <div class="os">
+          <svg viewBox="0 0 24 24" fill="#22d3ee"><path d="M17.5 14.5c-.3 1.5-1.6 3.6-2.9 5.4-1.1 1.5-2.2 3-3.8 3-1.6 0-2-1-4.2-1s-2.6 1-4.2 1c-1.6 0-2.7-1.5-3.8-3C-1.7 16.4-2.4 11 1 7.9c1.5-1.4 3.4-2.1 5.2-2.1 1.9 0 3.1 1 4.6 1 1.5 0 2.4-1 4.6-1 1.6 0 3.3.9 4.4 2.4-3.9 2.3-3.3 7.4.2 9.3zM11.8 1.5c.1-2.7 2.2-4.9 4.6-5.5.1 3-1.9 5.4-4.6 5.5z"/></svg>
+        </div>
+        <h3>Android</h3>
+        <p>Ставим Orbot из Google Play, вставляем мосты NOVA — и TikTok с YouTube открываются на телефоне.</p>
+        <div class="meta">Orbot + мосты · бесплатно</div>
+        <a class="btn-card" href="https://play.google.com/store/apps/details?id=org.torproject.android" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5v14"/></svg>
+          Orbot в Google Play
+        </a>
+        <a class="btn-card alt" href="downloads/mosty.txt" style="margin-top:10px">Файл мостов (.txt)</a>
+      </div>
+
+      <div class="card reveal">
+        <div class="os">
+          <svg viewBox="0 0 24 24" fill="#e8edfb"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+        </div>
+        <h3>iPhone (iOS)</h3>
+        <p>Ставим Orbot из App Store, вставляем мосты NOVA — и запрещённые сайты открываются на айфоне.</p>
+        <div class="meta">Orbot + мосты · бесплатно</div>
+        <a class="btn-card" href="https://apps.apple.com/app/orbot/id1609461599" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5v14"/></svg>
+          Orbot в App Store
+        </a>
+        <a class="btn-card alt" href="downloads/mosty.txt" style="margin-top:10px">Файл мостов (.txt)</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section" id="setup">
+  <div class="wrap">
+    <h2>Как настроить <span>телефон</span></h2>
+    <p class="lead">Три простых шага — и всё работает.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="num">1</div>
+        <h4>Установи Orbot</h4>
+        <p>Скачай Orbot из Google Play (Android) или App Store (iPhone). Это бесплатно.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">2</div>
+        <h4>Скачай мосты</h4>
+        <p>Нажми «Файл мостов» на карточке своей платформы — файл скачается на телефон.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">3</div>
+        <h4>Вставь в Orbot</h4>
+        <p>Orbot → Настройки → Мосты → «Вставить вручную». Скопируй строки из файла и вставь.</p>
+        <code>obfs4 78.63.213.108:9130 0F83… cert=… iat-mode=0</code>
+      </div>
+    </div>
+    <div class="phone-guide reveal">
+      <img src="downloads/настройка_телефона.png" alt="Настройка телефона">
+      <div>
+        <h4 style="font-size:18px;margin-bottom:10px">Наглядная инструкция</h4>
+        <p>Подключи Orbot и включи «VPN-режим». После этого YouTube, TikTok, Instagram и другие заблокированные сайты откроются на телефоне. Мосты обновляются каждые несколько часов — если перестало работать, скачай файл мостов заново.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="wrap">
+    <h2>Частые <span>вопросы</span></h2>
+    <div class="faq">
+      <details class="faq-item">
+        <summary>Это правда бесплатно?</summary>
+        <p>Да, NOVA VPN полностью бесплатный и без регистрации. Никакой карты, почты или номера телефона — скачал и пользуешься.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Какие сайты открывает?</summary>
+        <p>YouTube, Instagram, TikTok, X (Twitter), Facebook, Discord, Spotify, Netflix, Rutracker и другие сайты, заблокированные на территории РФ. Google, Яндекс, банки и обычные сайты работают как раньше — напрямую и быстро.</p>
+      </details>
+      <details class="faq-item">
+        <summary>На Windows ничего устанавливать не надо?</summary>
+        <p>Не надо. Скачал архив, распаковал, запустил NOVA.exe — программа работает сразу, ничего не устанавливая.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Перестало работать — что делать?</summary>
+        <p>Нажми «⟳ Переподключить» в программе — соберётся свежая цепь. На телефоне — скачай файл мостов заново (мосты обновляются каждые несколько часов).</p>
+      </details>
+      <details class="faq-item">
+        <summary>Это безопасно?</summary>
+        <p>Твой IP скрыт, трафик идёт через защищённый туннель. NOVA ничего не собирает и не хранит — ни логинов, ни данных.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="#"><img src="logo_small.png" alt=""><b>NOVA<span style="background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent">VPN</span></b></a>
+    <p>© 2026 NOVA VPN · интернет без границ</p>
+    <a href="#download">Скачать</a>
+  </div>
+</footer>
+
+<script>
+  // появление блоков при скролле
+  const io = new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
