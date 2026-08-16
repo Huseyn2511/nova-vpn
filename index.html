@@ -460,25 +460,25 @@
         <h3>1 месяц</h3>
         <p style="min-height:0;font-size:34px;font-weight:800;color:var(--blue2);margin:14px 0">299 ₽</p>
         <div class="meta" style="margin-bottom:18px">30 дней · всё открывается</div>
-        <a class="btn-card" href="#plans">Популярный выбор</a>
+        <a class="btn-card" target="_blank" rel="noopener" href="https://t.me/SpyderAlishka?text=Хочу%20NOVA%20VPN%20на%201%20месяц%20(299%20₽).%20Подскажи%2C%20как%20оплатить.">Купить за 299 ₽</a>
       </div>
       <div class="card reveal">
         <h3>3 месяца</h3>
         <p style="min-height:0;font-size:34px;font-weight:800;color:var(--blue2);margin:14px 0">799 ₽</p>
         <div class="meta" style="margin-bottom:18px">91 день · выгоднее на 11%</div>
-        <a class="btn-card" href="#plans">Выбрать</a>
+        <a class="btn-card" target="_blank" rel="noopener" href="https://t.me/SpyderAlishka?text=Хочу%20NOVA%20VPN%20на%203%20месяца%20(799%20₽).%20Подскажи%2C%20как%20оплатить.">Купить за 799 ₽</a>
       </div>
       <div class="card reveal">
         <h3>12 месяцев</h3>
         <p style="min-height:0;font-size:34px;font-weight:800;color:var(--blue2);margin:14px 0">2 499 ₽</p>
         <div class="meta" style="margin-bottom:18px">365 дней · выгоднее на 30%</div>
-        <a class="btn-card" href="#plans">Выбрать</a>
+        <a class="btn-card" target="_blank" rel="noopener" href="https://t.me/SpyderAlishka?text=Хочу%20NOVA%20VPN%20на%2012%20месяцев%20(2499%20₽).%20Подскажи%2C%20как%20оплатить.">Купить за 2 499 ₽</a>
       </div>
     </div>
     <div class="phone-guide reveal" style="margin-top:22px">
       <div style="width:100%">
         <h4 style="font-size:18px;margin-bottom:10px">Как оплатить</h4>
-        <p style="font-size:14.5px;line-height:1.7;color:var(--muted)">В приложении NOVA VPN открой раздел «Подписка», выбери тариф. Переведи нужную сумму <b style="color:var(--text)">по номеру карты Сбер: 2202 2067 4413 9549</b> с любого банковского приложения, нажми «Я оплатил» — и подписка включится сразу на выбранный срок. Проверка оплаты — поступлением на карту, всё честно.</p>
+        <p style="font-size:14.5px;line-height:1.7;color:var(--muted)">В приложении NOVA VPN открой раздел «Подписка», выбери тариф. Переведи нужную сумму <b style="color:var(--text);cursor:pointer;border-bottom:1px dashed var(--blue)" id="card-number" title="Нажми, чтобы скопировать">по номеру карты Сбер: 2202 2067 4413 9549</b> с любого банковского приложения, нажми «Я оплатил» — и подписка включится сразу на выбранный срок. Проверка оплаты — поступлением на карту, всё честно.</p>
       </div>
     </div>
   </div>
@@ -602,6 +602,29 @@
     });
   },{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // копирование номера карты по клику
+  const cardEl = document.getElementById('card-number');
+  if (cardEl) {
+    cardEl.addEventListener('click', ()=>{
+      const num = '2202 2067 4413 9549';
+      const done = ()=>{
+        const old = cardEl.textContent;
+        cardEl.textContent = '✓ Номер скопирован!';
+        setTimeout(()=>{ cardEl.textContent = old; }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(num).then(done).catch(()=>{ fallbackCopy(num); done(); });
+      } else { fallbackCopy(num); done(); }
+    });
+    function fallbackCopy(t){
+      const ta = document.createElement('textarea');
+      ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+    }
+  }
 </script>
 </body>
 </html>
